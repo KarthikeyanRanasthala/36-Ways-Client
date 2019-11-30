@@ -15,39 +15,42 @@ class SideBar extends React.Component {
   render() {
     return (
       <div className="col s3">
-        <div class="card">
-          <div class="card-image">
+        <div className="card">
+          <div className="card-image">
             <img
               src="http://via.placeholder.com/150"
               alt=""
               style={{ borderRadius: "50%" }}
             ></img>
           </div>
-          <div class="file-field input-field" style={{ margin: "10px 10px" }}>
-            <div class="btn">
+          <div
+            className="file-field input-field"
+            style={{ margin: "10px 10px" }}
+          >
+            <div className="btn">
               <span>Change</span>
               <input type="file" onChange={this.onChange} />
             </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" />
+            <div className="file-path-wrapper">
+              <input className="file-path validate" type="text" />
             </div>
           </div>
-          <div class="card-content" style={{ padding: "10px 10px" }}>
-            <ul class="collection">
-              <li class="collection-item">
-                <span class="title">Name</span>
+          <div className="card-content" style={{ padding: "10px 10px" }}>
+            <ul className="collection">
+              <li className="collection-item">
+                <span className="title">Name</span>
                 <p>{sample.name}</p>
               </li>
             </ul>
-            <ul class="collection">
-              <li class="collection-item">
-                <span class="title">Location</span>
+            <ul className="collection">
+              <li className="collection-item">
+                <span className="title">Location</span>
                 <p>{sample.location}</p>
               </li>
             </ul>
-            <ul class="collection">
-              <li class="collection-item">
-                <span class="title">EMail</span>
+            <ul className="collection">
+              <li className="collection-item">
+                <span className="title">Email</span>
                 <p>{sample.email}</p>
               </li>
             </ul>
