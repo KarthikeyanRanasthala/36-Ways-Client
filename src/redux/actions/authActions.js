@@ -5,7 +5,7 @@ import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 export const registerUser = (userData, history) => dispatch => {
   axios
-    .post("http://10.15.30.154:5001/api/users/register", userData)
+    .post("http://localhost:5001/api/users/register", userData)
     .then(res => {
       console.log(res);
       history.push("/login");
@@ -22,7 +22,7 @@ export const registerUser = (userData, history) => dispatch => {
 
 export const loginUser = (userData, history) => dispatch => {
   axios
-    .post("http://10.15.30.154:5001/api/users/login", userData)
+    .post("http://localhost:5001/api/users/login", userData)
     .then(res => {
       console.log(res);
       const { token } = res.data;

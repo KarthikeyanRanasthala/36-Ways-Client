@@ -18,42 +18,42 @@ class ChatFrame extends React.Component {
         <div id="frame">
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
           <p className="center">Hello</p>
           <div className="images-flex">
-            <button class="btn waves-effect waves-light red">Op 1</button>
-            <button class="btn waves-effect waves-light red">Op 2</button>
+            <button class="btn waves-effect waves-light">Op 1</button>
+            <button class="btn waves-effect waves-light">Op 2</button>
           </div>
         </div>
         <div className="images-flex">
-          <button class="btn waves-effect waves-light red">Leave Chat</button>
+          <button class="btn waves-effect waves-light red ">Leave Chat</button>
         </div>
       </div>
     );

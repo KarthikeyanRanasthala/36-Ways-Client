@@ -41,7 +41,7 @@ class Register extends React.Component {
   render() {
     console.log(this.state);
     return (
-      <div className="container">
+      <div className="">
         <div className="row">
           <div className="col s8 offset-s2">
             <div className="col s12" style={{ paddingLeft: "11.250px" }}>
@@ -91,7 +91,7 @@ class Register extends React.Component {
                   name="gender"
                   type="text"
                 />
-                <label htmlFor="email">Age</label>
+                <label htmlFor="email">Gender</label>
               </div>
               <div className="input-field col s12">
                 <input
