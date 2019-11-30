@@ -1,4 +1,11 @@
-#images-flex {
+.images-flex {
   display: flex;
   justify-content: space-around;
+}
+
+#frame {
+  margin: 50px 0px;
+  height: 50vh;
+  overflow-x: hidden;
+  overflow-x: auto;
 }
