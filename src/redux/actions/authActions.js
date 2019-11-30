@@ -20,7 +20,7 @@ export const registerUser = (userData, history) => dispatch => {
     });
 };
 
-export const loginUser = userData => dispatch => {
+export const loginUser = (userData, history) => dispatch => {
   axios
     .post("http://10.15.30.154:5001/api/users/login", userData)
     .then(res => {
@@ -30,6 +30,7 @@ export const loginUser = userData => dispatch => {
       setAuthToken(token);
       const decoded = jwt_decode(token);
       dispatch(setCurrentUser(decoded));
+      history.push("/dashboard");
     })
     .catch(err => {
       console.log(err);

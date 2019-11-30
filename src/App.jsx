@@ -1,47 +1,34 @@
 import React from "react";
 
-import { Route } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { Route, Redirect } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 
 import Login from "./routes/Login";
 import Register from "./routes/Register";
+import Dashboard from "./routes/Dashboard";
 
-import jwt_decode from "jwt-decode";
-import setAuthToken from "./utils/setAuthToken";
-
-import { Provider } from "react-redux";
-import store from "./redux/store";
-
-import { setCurrentUser, logoutUser } from "./redux/actions/authActions";
-
-// Check for token to keep user logged in
-if (localStorage.jwtToken) {
-  // Set auth token header auth
-  const token = localStorage.jwtToken;
-  setAuthToken(token);
-  // Decode token and get user info and exp
-  const decoded = jwt_decode(token);
-  // Set user and isAuthenticated
-  store.dispatch(setCurrentUser(decoded));
-  // Check for expired token
-  const currentTime = Date.now() / 1000; // to get in milliseconds
-  if (decoded.exp < currentTime) {
-    // Logout user
-    store.dispatch(logoutUser());
-    // Redirect to login
-    window.location.href = "./login";
-  }
-}
-
-const App = () => {
+const App = props => {
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Route path="/" exact component={Login} />
-        <Route path="/register" component={Register} />
-      </BrowserRouter>
-    </Provider>
+    <BrowserRouter>
+      <Route path="/" exact component={Login} />
+      <Route path="/register" component={Register} />
+      <Route path="/dashboard" component={Dashboard} />
+      {props.auth.isAuthenticated ? (
+        <Redirect to={{ pathname: "/dashboard" }} />
+      ) : (
+        <Redirect to={{ pathname: "/" }} />
+      )}
+    </BrowserRouter>
   );
 };
 
-export default App;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    auth: state.auth
+  };
+};
+
+export default connect(mapStateToProps)(App);
