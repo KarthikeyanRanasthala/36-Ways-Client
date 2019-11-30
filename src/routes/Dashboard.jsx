@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import SideBar from "../components/SideBar";
-import ChatFrame from "../components/ChatFrame";
+import Chat from "../components/Chat";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class Dashboard extends React.Component {
           }}
         >
           <SideBar />
-          <ChatFrame />
+          <Chat />
         </div>
       </div>
     );
