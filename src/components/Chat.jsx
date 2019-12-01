@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Axios from "axios";
 
 import "./ChatFrame.css";
+import Modal from "./Modal";
 
 // let socket;
 const ENDPOINT = "localhost:5001";
@@ -255,7 +256,7 @@ class Chat extends Component {
 
     let percent = rns.filter(
       item => item.received && item.sent && item.myans == item.otherans
-    );
+    ).length;
     let x = 60 - Math.floor((60 / 6) * percent);
 
     // style={{ filter: `blur(${x}px)` }}
@@ -395,6 +396,26 @@ class Chat extends Component {
               Match
             </button>
           )}
+        </div> */}
+        {/* <button data-target="modal1" class="btn modal-trigger">
+          Modal
+        </button>
+        <Modal /> */}
+        {/* <a class="waves-effect waves-light btn modal-trigger" href="#modal1">
+          Modal
+        </a> */}
+
+        {/* <!-- Modal Structure --> */}
+        {/* <div id="modal1" class="modal">
+          <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+              Agree
+            </a>
+          </div>
         </div> */}
       </div>
     );
