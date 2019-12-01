@@ -3,6 +3,10 @@
   justify-content: space-around;
 }
 
+.images-flex img {
+  filter: blur(100);
+}
+
 #frame {
   margin: 50px 0px;
   height: 50vh;

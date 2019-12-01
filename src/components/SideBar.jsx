@@ -38,26 +38,26 @@ class SideBar extends React.Component {
       <>
         {this.state.user ? (
           <div className="col s3">
-            <div class="card">
-              <div class="card-image">
+            <div className="card">
+              <div className="card-image">
                 <img
-                  src={`${process.env.REACT_APP_BASE_URL}/${this.state.user.image}`}
+                  src={`http://localhost:5001/uploads/${this.state.user.image}`}
                   alt=""
                 ></img>
               </div>
 
-              <div class="card-content" style={{ padding: "10px 10px" }}>
+              <div className="card-content" style={{ padding: "10px 10px" }}>
                 <div
-                  class="file-field input-field"
+                  className="file-field input-field"
                   style={{ margin: "10px 10px" }}
                 >
-                  <div class="btn">
+                  <div className="btn">
                     <span>Change</span>
                     <input type="file" onChange={evt => this.onChange(evt)} />
                   </div>
-                  <div class="file-path-wrapper">
+                  <div className="file-path-wrapper">
                     <input
-                      class="file-path validate"
+                      className="file-path validate"
                       type="text"
                       style={{ display: "none" }}
                     />
@@ -65,9 +65,9 @@ class SideBar extends React.Component {
                   <br></br>
                   <br></br>
                 </div>
-                <ul class="collection">
-                  <li class="collection-item">
-                    <span class="title">Name</span>
+                <ul className="collection">
+                  <li className="collection-item">
+                    <span className="title">Name</span>
                     <p>{this.state.user.name}</p>
                   </li>
                 </ul>
