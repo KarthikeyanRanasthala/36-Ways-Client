@@ -256,13 +256,14 @@ class Chat extends Component {
     console.log(messages, rns);
 
     let percent = rns.filter(
-      item => item.received && item.sent && item.myans == item.otherans
-    );
+      item => item.received && item.sent && item.myans === item.otherans
+    ).length;
     let x = 60 - Math.floor((60 / 6) * percent);
 
     // style={{ filter: `blur(${x}px)` }}
     console.log(this.props);
     console.log(messages);
+    console.log(x);
     return (
       <div className="col s8 offset-s1">
         <div className="images-flex" style={{ margin: "30px 0px" }}>
@@ -346,13 +347,17 @@ class Chat extends Component {
                   </button>
                 </div>
                 <div>
-                  {rns
-                    .filter(item => item.received && item.sent)
-                    .map(x => (
-                      <p>
-                        Your Answer : {x.myans} | Other Answer :{x.otherans}
-                      </p>
-                    ))}
+                  <ul className="collection" style={{ margin: "30px 0px" }}>
+                    {rns
+                      .filter(item => item.received && item.sent)
+                      .map(x => {
+                        return (
+                          <li className="collection-item">
+                            Your Answer : {x.myans} | Other Answer :{x.otherans}
+                          </li>
+                        );
+                      })}
+                  </ul>
                 </div>
                 {textField ? (
                   <input
