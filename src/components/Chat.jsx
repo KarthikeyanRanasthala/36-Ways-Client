@@ -6,6 +6,8 @@ import Axios from "axios";
 
 import "./ChatFrame.css";
 
+import { withRouter } from "react-router-dom";
+
 // let socket;
 const ENDPOINT = "localhost:5001";
 let socket = io(ENDPOINT);
@@ -224,9 +226,12 @@ class Chat extends Component {
     console.log(messages);
     return (
       <div className="col s8 offset-s1">
-        <div className="">
+        <div className="images-flex" style={{ margin: "30px 0px" }}>
           {showStart ? (
-            <button onClick={event => this.sendMessage(event)}>
+            <button
+              onClick={event => this.sendMessage(event)}
+              className="btn waves-effect waves-light"
+            >
               Start Conversation
             </button>
           ) : (
@@ -316,7 +321,7 @@ class Chat extends Component {
                 ) : (
                   <></>
                 )}
-                <div className="images-flex">
+                <div className="images-flex" style={{ margin: "30px 0px" }}>
                   <button
                     onClick={() => this.handleMatch()}
                     className="btn waves-effect waves-light red"
@@ -362,4 +367,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps, null)(Chat);
+export default withRouter(connect(mapStateToProps, null)(Chat));
