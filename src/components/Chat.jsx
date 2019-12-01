@@ -9,7 +9,15 @@ import "./ChatFrame.css";
 // let socket;
 const ENDPOINT = "localhost:5001";
 let socket = io(ENDPOINT);
-
+const myrns = [
+  { index: 0, received: false, sent: false, myans: null, otherans: null },
+  { index: 2, received: false, sent: false, myans: null, otherans: null },
+  { index: 3, received: false, sent: false, myans: null, otherans: null },
+  { index: 4, received: false, sent: false, myans: null, otherans: null },
+  { index: 5, received: false, sent: false, myans: null, otherans: null },
+  { index: 1, received: false, sent: false, myans: null, otherans: null },
+  { index: 6, received: false, sent: false, myans: null, otherans: null }
+];
 const questions = [
   {
     id: 1,
@@ -19,19 +27,19 @@ const questions = [
   },
   {
     id: 2,
-    question: "Q1",
+    question: "Q2",
     options: ["O1", "O2"],
     correctAnswer: 2
   },
   {
     id: 3,
-    question: "Q1",
+    question: "Q3",
     options: ["O1", "O2"],
     correctAnswer: 2
   },
   {
     id: 4,
-    question: "Q1",
+    question: "Q4",
     options: ["O1", "O2"],
     correctAnswer: 2
   }
@@ -51,9 +59,42 @@ class Chat extends Component {
       questions: [{ ...questions[0], answer: "" }],
       percent: 0,
       oppImg: "",
-      oppName: ""
+      oppName: "",
+      qp: 0,
+      rns: [...myrns]
     };
   }
+
+  handleQA = (qp, op) => {
+    socket.emit(
+      "sendMessage",
+      {
+        message: {
+          qid: qp,
+          oid: op,
+          type: "qa"
+        },
+        userId: this.props.userId
+      },
+      () => {
+        let newrns = this.state.rns;
+        newrns = newrns.map(item => {
+          if (item.index == qp) {
+            item.myans = op;
+            item.sent = true;
+            return { ...item };
+          } else {
+            return { ...item };
+          }
+        });
+
+        this.setState({
+          rns: newrns,
+          qp: this.state.qp + 1
+        });
+      }
+    );
+  };
 
   sendMessage = event => {
     // prevent refresh on key press
@@ -95,6 +136,23 @@ class Chat extends Component {
       } else {
         this.setState({ active: false });
       }
+
+      if (message.text.type == "qa" && this.props.username !== message.user) {
+        let newrns = this.state.rns;
+        newrns = newrns.map(item => {
+          if (item.index == message.text.qid) {
+            item.otherans = message.text.oid;
+            item.received = true;
+            return { ...item };
+          } else {
+            return { ...item };
+          }
+        });
+
+        this.setState({
+          rns: newrns
+        });
+      }
       this.setState({ messages: [...this.state.messages, message] });
     });
     // socket.on("message", message => {
@@ -129,9 +187,9 @@ class Chat extends Component {
   }
 
   render() {
-    const { match, message, messages, active } = this.state;
+    const { match, message, messages, active, qp, rns } = this.state;
     console.log(message);
-    console.log(messages);
+    console.log(messages, rns);
     console.log(this.props);
     return (
       <div className="col s8 offset-s1">
@@ -180,10 +238,29 @@ class Chat extends Component {
             </div>
 
             <div id="frame">
-              <p className="center">{questions[0].question}</p>
+              <p className="center">{questions[qp].question}</p>
               <div className="images-flex">
-                <button class="btn waves-effect waves-light">Op 1</button>
-                <button class="btn waves-effect waves-light">Op 2</button>
+                <button
+                  onClick={() => this.handleQA(qp, 0)}
+                  class="btn waves-effect waves-light"
+                >
+                  {questions[qp].options[0]}
+                </button>
+                <button
+                  onClick={() => this.handleQA(qp, 1)}
+                  class="btn waves-effect waves-light"
+                >
+                  {questions[qp].options[1]}
+                </button>
+              </div>
+              <div>
+                {rns
+                  .filter(item => item.received && item.sent)
+                  .map(x => (
+                    <p>
+                      Your Answer : {x.myans} | Other Answer :{x.otherans}
+                    </p>
+                  ))}
               </div>
               <input
                 type="text"
