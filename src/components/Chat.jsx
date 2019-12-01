@@ -21,26 +21,56 @@ const myrns = [
 const questions = [
   {
     id: 1,
-    question: "Q1",
-    options: ["O1", "O2"],
+    question:
+      "If you got some free time, which activity would you most enjoy engaging in with your partner?",
+    options: ["Relaxing on the beach ", "Reading a book "],
     correctAnswer: 2
   },
   {
     id: 2,
-    question: "Q2",
-    options: ["O1", "O2"],
+    question:
+      "If you went to see a movie together, which of these genres would you most likely pick?",
+    options: ["Action ", "Drama"],
     correctAnswer: 2
   },
   {
     id: 3,
-    question: "Q3",
-    options: ["O1", "O2"],
+    question:
+      "If you were broke, what's the most romantic thing you would do for your partner?",
+    options: [
+      "Provide emotional support",
+      "Buy him/her a nice gift with your credit card "
+    ],
     correctAnswer: 2
   },
   {
     id: 4,
-    question: "Q4",
-    options: ["O1", "O2"],
+    question:
+      "Which of these do you feel is the most important aspect of a successful relationship?",
+    options: ["Communication ", "Compromise "],
+    correctAnswer: 2
+  },
+  {
+    id: 5,
+    question: "How important is your partner's intelligence to you? ",
+    options: [
+      "It's important, but I don't know how to describe it  ",
+      "It makes me respect him/her more  "
+    ],
+    correctAnswer: 2
+  },
+  {
+    id: 6,
+    question:
+      "Which of these do you feel is the most important aspect of a successful relationship?",
+    options: ["Communication ", "Compromise "],
+    correctAnswer: 2
+  },
+  {
+    id: 7,
+    question:
+      "Which of these do you feel is the most important aspect of a successful relationship?",
+    options: ["Communication ", "Compromise "],
     correctAnswer: 2
   }
 ];
@@ -190,6 +220,9 @@ class Chat extends Component {
     const { match, message, messages, active, qp, rns } = this.state;
     console.log(message);
     console.log(messages, rns);
+    // percent = arr.filter(item=>item.received&&item.sent&&(item.myans==item.otherans)
+    // const x = 60 - Math.floor((60 / 6) * percent);
+    // style={{ filter: `blur(${x}px)` }}
     console.log(this.props);
     return (
       <div className="col s8 offset-s1">
@@ -274,7 +307,7 @@ class Chat extends Component {
               />
               <div className="images-flex">
                 <button
-                  onClick={() => this.setState({ match: !match })}
+                  onClick={() => this.handleUnMatch()}
                   className="btn waves-effect waves-light red"
                 >
                   UnMatch

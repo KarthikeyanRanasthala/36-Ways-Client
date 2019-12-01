@@ -8,6 +8,7 @@ import { BrowserRouter } from "react-router-dom";
 import Login from "./routes/Login";
 import Register from "./routes/Register";
 import Dashboard from "./routes/Dashboard";
+import Test from "./Test";
 
 const App = props => {
   return (
@@ -20,6 +21,7 @@ const App = props => {
       ) : (
         <Redirect to={{ pathname: "/" }} />
       )}
+      {/* <Test /> */}
     </BrowserRouter>
   );
 };
