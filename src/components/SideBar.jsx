@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import Axios from "axios";
 
+import { withRouter } from "react-router-dom";
+
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +33,12 @@ class SideBar extends React.Component {
     Axios.post("http://localhost:5001/api/image", data)
       .then(resp => this.getUser())
       .catch(err => console.log(err));
+  };
+
+  logout = () => {
+    localStorage.removeItem("jwtToken");
+    // console.log(this.props);
+    this.props.history.push("/");
   };
 
   render() {
@@ -83,6 +91,13 @@ class SideBar extends React.Component {
                     <p>{this.state.user.email}</p>
                   </li>
                 </ul>
+                <button
+                  onClick={() => this.logout()}
+                  className="btn waves-effect waves-light"
+                  style={{ width: "100%" }}
+                >
+                  Logout
+                </button>
               </div>
             </div>
           </div>
@@ -100,4 +115,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SideBar);
+export default withRouter(connect(mapStateToProps)(SideBar));
