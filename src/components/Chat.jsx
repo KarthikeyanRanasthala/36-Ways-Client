@@ -91,7 +91,11 @@ class Chat extends Component {
       oppImg: "",
       oppName: "",
       qp: 0,
-      rns: [...myrns]
+      rns: [...myrns],
+      showStart: false,
+      qaScreen: true,
+      qscreen: true,
+      textField: false
     };
   }
 
@@ -109,7 +113,7 @@ class Chat extends Component {
       () => {
         let newrns = this.state.rns;
         newrns = newrns.map(item => {
-          if (item.index == qp) {
+          if (item.index === qp) {
             item.myans = op;
             item.sent = true;
             return { ...item };
@@ -117,11 +121,19 @@ class Chat extends Component {
             return { ...item };
           }
         });
-
-        this.setState({
-          rns: newrns,
-          qp: this.state.qp + 1
-        });
+        if (qp < questions.length - 1) {
+          this.setState({
+            rns: newrns,
+            qp: this.state.qp + 1
+          });
+        } else {
+          this.setState({
+            rns: newrns,
+            qp: 0,
+            qscreen: false,
+            textField: true
+          });
+        }
       }
     );
   };
@@ -130,11 +142,11 @@ class Chat extends Component {
     // prevent refresh on key press
     event.preventDefault();
 
-    if (this.state.message) {
+    if (this.state.message !== undefined) {
       socket.emit(
         "sendMessage",
         { message: this.state.message, userId: this.props.userId },
-        () => this.setState({ message: "" })
+        () => this.setState({ message: "", showStart: false, qaScreen: true })
       );
     }
   };
@@ -151,6 +163,9 @@ class Chat extends Component {
       console.log(message, "ms");
       console.log(message.user !== this.props.username);
       if (message.type === "Active") {
+        if (message.user === "admin") {
+          this.setState({ showStart: true, qaScreen: false });
+        }
         if (
           message.user !== this.props.username &&
           this.state.oppImg !== message.img
@@ -167,10 +182,10 @@ class Chat extends Component {
         this.setState({ active: false });
       }
 
-      if (message.text.type == "qa" && this.props.username !== message.user) {
+      if (message.text.type === "qa" && this.props.username !== message.user) {
         let newrns = this.state.rns;
         newrns = newrns.map(item => {
-          if (item.index == message.text.qid) {
+          if (item.index === message.text.qid) {
             item.otherans = message.text.oid;
             item.received = true;
             return { ...item };
@@ -204,7 +219,13 @@ class Chat extends Component {
       //   alert(error);
     });
 
-    this.setState({ match: !this.state.match });
+    this.setState({
+      match: !this.state.match,
+      rns: [...myrns],
+      messages: [],
+      qaScreen: true,
+      showStart: false
+    });
   };
 
   componentWillUnmount() {
@@ -217,42 +238,71 @@ class Chat extends Component {
   }
 
   render() {
-    const { match, message, messages, active, qp, rns } = this.state;
+    const {
+      match,
+      message,
+      messages,
+      active,
+      qp,
+      rns,
+      showStart,
+      qaScreen,
+      qscreen,
+      textField
+    } = this.state;
     console.log(message);
     console.log(messages, rns);
-    // percent = arr.filter(item=>item.received&&item.sent&&(item.myans==item.otherans)
-    // const x = 60 - Math.floor((60 / 6) * percent);
+
+    let percent = rns.filter(
+      item => item.received && item.sent && item.myans == item.otherans
+    );
+    let x = 60 - Math.floor((60 / 6) * percent);
+
     // style={{ filter: `blur(${x}px)` }}
     console.log(this.props);
+    console.log(messages);
     return (
       <div className="col s8 offset-s1">
-        {match ? (
-          active ? (
+        <div className="">
+          {showStart ? (
+            <button onClick={event => this.sendMessage(event)}>
+              Start Conversation
+            </button>
+          ) : (
             <></>
+          )}
+          {match ? (
+            active ? (
+              <></>
+            ) : (
+              <button
+                onClick={() => this.setState({ match: !match })}
+                className="btn waves-effect waves-light red"
+              >
+                Searching...
+              </button>
+            )
           ) : (
             <button
-              onClick={() => this.setState({ match: !match })}
-              className="btn waves-effect waves-light red"
+              onClick={this.handleMatch}
+              className="btn waves-effect waves-light green"
             >
-              Searching...
+              Find a Match
             </button>
-          )
-        ) : (
-          <button
-            onClick={this.handleMatch}
-            className="btn waves-effect waves-light green"
-          >
-            Match
-          </button>
-        )}
-        {active ? (
+          )}
+        </div>
+        {match && active && qaScreen ? (
           <>
             <div className="images-flex">
               <div>
                 <img
                   src={`http://localhost:5001/uploads/${this.state.user.image}`}
                   alt=""
-                  style={{ width: "200px", height: "200px" }}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    filter: `blur(${x}px)`
+                  }}
                 ></img>
                 <p className="center-align">{this.props.username}</p>
               </div>
@@ -260,7 +310,11 @@ class Chat extends Component {
                 <img
                   src={`http://localhost:5001/uploads/${this.state.oppImg}`}
                   alt=""
-                  style={{ width: "200px", height: "200px" }}
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    filter: `blur(${x}px)`
+                  }}
                 ></img>
                 <p className="center-align">
                   {this.state.oppName === "admin"
@@ -269,51 +323,58 @@ class Chat extends Component {
                 </p>
               </div>
             </div>
-
-            <div id="frame">
-              <p className="center">{questions[qp].question}</p>
-              <div className="images-flex">
-                <button
-                  onClick={() => this.handleQA(qp, 0)}
-                  class="btn waves-effect waves-light"
-                >
-                  {questions[qp].options[0]}
-                </button>
-                <button
-                  onClick={() => this.handleQA(qp, 1)}
-                  class="btn waves-effect waves-light"
-                >
-                  {questions[qp].options[1]}
-                </button>
+            {qscreen ? (
+              <div id="frame">
+                <p className="center">{questions[qp].question}</p>
+                <div className="images-flex">
+                  <button
+                    onClick={() => this.handleQA(qp, 0)}
+                    class="btn waves-effect waves-light"
+                  >
+                    {questions[qp].options[0]}
+                  </button>
+                  <button
+                    onClick={() => this.handleQA(qp, 1)}
+                    class="btn waves-effect waves-light"
+                  >
+                    {questions[qp].options[1]}
+                  </button>
+                </div>
+                <div>
+                  {rns
+                    .filter(item => item.received && item.sent)
+                    .map(x => (
+                      <p>
+                        Your Answer : {x.myans} | Other Answer :{x.otherans}
+                      </p>
+                    ))}
+                </div>
+                {textField ? (
+                  <input
+                    type="text"
+                    value={message}
+                    onChange={event =>
+                      this.setState({ message: event.target.value })
+                    }
+                    onKeyPress={event =>
+                      event.key === "Enter" ? this.sendMessage(event) : null
+                    }
+                  />
+                ) : (
+                  <></>
+                )}
+                <div className="images-flex">
+                  <button
+                    onClick={() => this.handleMatch()}
+                    className="btn waves-effect waves-light red"
+                  >
+                    UnMatch
+                  </button>
+                </div>
               </div>
-              <div>
-                {rns
-                  .filter(item => item.received && item.sent)
-                  .map(x => (
-                    <p>
-                      Your Answer : {x.myans} | Other Answer :{x.otherans}
-                    </p>
-                  ))}
-              </div>
-              <input
-                type="text"
-                value={message}
-                onChange={event =>
-                  this.setState({ message: event.target.value })
-                }
-                onKeyPress={event =>
-                  event.key === "Enter" ? this.sendMessage(event) : null
-                }
-              />
-              <div className="images-flex">
-                <button
-                  onClick={() => this.handleUnMatch()}
-                  className="btn waves-effect waves-light red"
-                >
-                  UnMatch
-                </button>
-              </div>
-            </div>
+            ) : (
+              <></>
+            )}
           </>
         ) : (
           <></>
