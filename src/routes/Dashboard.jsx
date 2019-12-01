@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
             style={{ color: "white", margin: "0px", padding: "100px 0px" }}
             className="center"
           >
-            Come Fall In Love.
+            Love Unblurred
           </h1>
         </div>
         <div
